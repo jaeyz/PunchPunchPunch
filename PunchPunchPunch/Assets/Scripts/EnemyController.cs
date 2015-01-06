@@ -7,13 +7,20 @@ public class EnemyController : MonoBehaviour {
 	public int minTimeRange = 3; // ATTACK DECISION MAKING.
 	public int maxTimeRange = 5; // 
 
-	// Use this for initialization
+	private float counter = 0;
+
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-	
+		counter += Time.deltaTime;
+		if (counter > GetRandomValue()) {
+			counter = 0;
+		}
+	}
+
+	private int GetRandomValue() {
+		return Random.Range(minTimeRange, maxTimeRange);
 	}
 }
