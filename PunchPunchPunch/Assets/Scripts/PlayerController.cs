@@ -23,69 +23,71 @@ public class PlayerController : MonoBehaviour {
 	                                        
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyUp(KeyCode.Q)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("LeftJabBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_JAB_ATTACK);
-				GameManager.Instance.playerState = BoxerState.LEFT_JAB_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.A)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("LeftHookBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_HOOK_ATTACK);
-				GameManager.Instance.playerState = BoxerState.LEFT_HOOK_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.Z)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("LeftUppercutBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_UPPERCUT_ATTACK);
-				GameManager.Instance.playerState = BoxerState.LEFT_UPPERCUT_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.X)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("RightUppercutBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_UPPERCUT_ATTACK);
-				GameManager.Instance.playerState = BoxerState.RIGHT_UPPERCUT_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.S)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("RightHookBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_HOOK_ATTACK);
-				GameManager.Instance.playerState = BoxerState.RIGHT_HOOK_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.W)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("RightJabBool", true);
-				GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_JAB_ATTACK);
-				GameManager.Instance.playerState = BoxerState.RIGHT_JAB_ATTACK;
-				StartCoroutine(WaitToReset());
-			}
-		} else if (Input.GetKeyUp(KeyCode.E)) {
-			if (canAttack) {
-				canAttack = false;
-				anim.SetBool("IdleBool", false);
-				anim.SetBool("BlockBool", true);
-				GameManager.Instance.playerState = BoxerState.BLOCK;
-				StartCoroutine(WaitToReset(true));
-			}
-		} 
+		if (!GameManager.Instance.hasKO) {
+			if (Input.GetKeyUp(KeyCode.Q)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("LeftJabBool", true);
+					GameManager.Instance.playerState = BoxerState.LEFT_JAB_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_JAB_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.A)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("LeftHookBool", true);
+					GameManager.Instance.playerState = BoxerState.LEFT_HOOK_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_HOOK_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.Z)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("LeftUppercutBool", true);
+					GameManager.Instance.playerState = BoxerState.LEFT_UPPERCUT_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_UPPERCUT_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.X)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("RightUppercutBool", true);
+					GameManager.Instance.playerState = BoxerState.RIGHT_UPPERCUT_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_UPPERCUT_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.S)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("RightHookBool", true);
+					GameManager.Instance.playerState = BoxerState.RIGHT_HOOK_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_HOOK_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.W)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("RightJabBool", true);
+					GameManager.Instance.playerState = BoxerState.RIGHT_JAB_ATTACK;
+					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_JAB_ATTACK);
+					StartCoroutine(WaitToReset());
+				}
+			} else if (Input.GetKeyUp(KeyCode.E)) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("BlockBool", true);
+					GameManager.Instance.playerState = BoxerState.BLOCK;
+					StartCoroutine(WaitToReset(true));
+				}
+			} 
+		}
 	}
 
 	public void Reset() {

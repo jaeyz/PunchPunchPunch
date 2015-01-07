@@ -15,11 +15,15 @@ public class GameManager : MonoBehaviour {
 	private List<EnemyType> enemyTypes = new List<EnemyType>();
 	private int enemyIndex = 0;
 
-	public float playerHealth = 30f;
-	public float enemyHealth = 30f;
+	public float playerHealth = 10f;
+	public float enemyHealth = 10f;
 
 	public BoxerState playerState;
 	public BoxerState enemyState;
+
+	public bool hasKO = false;
+
+	private int secondLifeValue = 10;
 
 	private static GameManager gameManager;
 	public static GameManager Instance {
@@ -88,10 +92,19 @@ public class GameManager : MonoBehaviour {
 			animatorHolder = enemy;
 
 		yield return new WaitForSeconds(0.35f);
+
+		SoundManager.Instance.PlayOnce (Sounds.PUNCH);
+
 		if (enemyHealth <= 0 || playerHealth <= 0) {
 			animatorHolder.SetBool ("KnockoutBool", true);
-			if (boxer == Boxers.ENEMY)
+			if (boxer == Boxers.ENEMY) {
 				EnemyController.Instance.isDead = true;
+				CountdownManager.Instance.isEnemy = true;
+			} else {
+				CountdownManager.Instance.isEnemy = false;
+			}
+			hasKO = true;
+			StartCountdown();
 		} else {
 			EnemyController.Instance.Counter -= 2f;
 			if (boxerState.ToString().ToUpper().Contains("UPPERCUT")) {
@@ -144,8 +157,6 @@ public class GameManager : MonoBehaviour {
 	private bool AllowDamage(Boxers boxer) {
 		if (boxer == Boxers.PLAYER) {
 			if (enemyState.ToString().ToUpper().Contains("ATTACK")) {
-				if (playerState == BoxerState.IDLE)
-					return true;
 				if (playerState == BoxerState.BLOCK)
 					return false;
 				if (enemyState.ToString().ToUpper().Contains("LEFT")) {
@@ -159,10 +170,8 @@ public class GameManager : MonoBehaviour {
 			} else {
 				return false;
 			}
-		} else {
+		} else if (boxer == Boxers.ENEMY) {
 			if (playerState.ToString().ToUpper().Contains("ATTACK")) {
-				if (enemyState == BoxerState.IDLE)
-					return true;
 				if (enemyState == BoxerState.BLOCK) 
 					return false;
 				if (playerState.ToString().ToUpper().Contains("LEFT")) {
@@ -178,5 +187,67 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		return true;
+	}
+
+	private void StartCountdown() {
+		CountdownManager.Instance.StartCountdown ();
+	}
+
+	public void Getup(bool isEnemy) {
+		if (isEnemy) {
+			enemy.SetBool("GetUpBool", true);
+		} else {
+			player.SetBool("GetUpBool", true);
+		}
+	}
+
+	public void Rebox(bool isEnemy) {
+		if (isEnemy) {
+			enemy.SetBool("GetupBoolOk", true);
+			enemyHealth = secondLifeValue;
+		} else {
+			player.SetBool("GetupBoolOk", true);
+			playerHealth = secondLifeValue;
+		}
+		Reset (isEnemy);
+	}
+
+	public void GameOver(bool isEnemy) {
+		if (isEnemy) {
+			enemy.SetBool("DeadBool", true);
+		} else {
+			player.SetBool("DeadBool", true);
+		}
+	}
+
+	private void Reset(bool isEnemy) {
+		if (isEnemy) {
+			enemy.SetBool("KnockoutBool", false);
+			enemy.SetBool("GetUpBool", false);
+			EnemyController.Instance.Counter = 0;
+		} else {
+			player.SetBool("KnockoutBool", false);
+			player.SetBool("GetUpBool", false);
+		}
+		hasKO = false;
+		EnemyController.Instance.isDead = false;
+		StartCoroutine (RemoveGtup (isEnemy));
+	}
+
+	public void RemoveKnockout(bool isEnemy) {
+		if (isEnemy) {
+			enemy.SetBool("KnockoutBool", false);
+		} else {
+			player.SetBool("KnockoutBool", false);
+		}
+	}
+
+	private IEnumerator RemoveGtup(bool isEnemy) {
+		yield return new WaitForSeconds (2f);
+		if (isEnemy) {
+			enemy.SetBool("GetupBoolOk", false);
+		} else {
+			player.SetBool("GetupBoolOk", false);
+		}
 	}
 }

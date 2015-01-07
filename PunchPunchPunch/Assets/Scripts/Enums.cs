@@ -28,3 +28,11 @@ public enum BoxerState {
 	LEFT_DODGE,
 	RIGHT_DODGE
 }
+
+public enum Sounds {
+	PUNCH,
+	BLOCK,
+	DODGE,
+	BELL,
+	COUNTDOWN
+}

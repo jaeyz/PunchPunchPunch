@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (!isDead) {
+		if (!isDead && !GameManager.Instance.hasKO) {
 			counter += Time.deltaTime;
 			if (counter > GetRandomValue()) {
 				MovementManager.Instance.PerformRandomMove();
