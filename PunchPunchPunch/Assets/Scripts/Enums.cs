@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Boxers {
+	PLAYER,
+	ENEMY
+}
+
 public enum EnemyType {
 	EASY,
 	NORMAL,
