@@ -85,9 +85,11 @@ public class GameManager : MonoBehaviour {
 			animatorHolder = enemy;
 
 		yield return new WaitForSeconds(0.35f);
-		if (enemyHealth <= 0 || playerHealth <= 0)
+		if (enemyHealth <= 0 || playerHealth <= 0) {
 			animatorHolder.SetBool ("KnockoutBool", true);
-		else {
+			if (boxer == Boxers.ENEMY)
+				EnemyController.Instance.isDead = true;
+		} else {
 			EnemyController.Instance.Counter -= 2f;
 			if (boxerState.ToString().ToUpper().Contains("UPPERCUT")) {
 				animatorHolder.SetBool("DamageUppercut", true);
