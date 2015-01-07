@@ -63,6 +63,13 @@ public class GameManager : MonoBehaviour {
 			}
 			StartCoroutine(Delay(boxer, boxerState));
 		}
+		if (boxer == Boxers.ENEMY) 
+			StartCoroutine(Reset());
+	}
+
+	private IEnumerator Reset() {
+		yield return new WaitForSeconds(0.35f);
+		PlayerController.Instance.Reset();
 	}
 
 	private void CheckAnimation(Animator anim) {
@@ -94,7 +101,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	
-	IEnumerator CheckAnimCor(Animator anim) {
+	 IEnumerator CheckAnimCor(Animator anim) {
 		AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
 		while (stateInfo.nameHash == Animator.StringToHash("Base Layer.IdleState")) {
 			stateInfo = anim.GetCurrentAnimatorStateInfo(0);
