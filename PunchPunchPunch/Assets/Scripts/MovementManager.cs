@@ -62,6 +62,7 @@ public class MovementManager : MonoBehaviour {
 			anim.SetBool("DodgeRightBool", true);
 			break;
 		}
+		GameManager.Instance.Damage(Boxers.PLAYER, boxerState);
 		CheckAnimation ();
 	}
 
