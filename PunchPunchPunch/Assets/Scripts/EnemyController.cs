@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour {
 	private float counter = 0;
 	private EnemyType enemyType = EnemyType.EASY;
 
+	public bool isDead = false;
+
 	private static EnemyController enemyController;
 	public static EnemyController Instance {
 		get {
@@ -19,10 +21,12 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void Update () {
-		counter += Time.deltaTime;
-		if (counter > GetRandomValue()) {
-			MovementManager.Instance.PerformRandomMove();
-			counter = 0;
+		if (!isDead) {
+			counter += Time.deltaTime;
+			if (counter > GetRandomValue()) {
+				MovementManager.Instance.PerformRandomMove();
+				counter = 0;
+			}
 		}
 	}
 
