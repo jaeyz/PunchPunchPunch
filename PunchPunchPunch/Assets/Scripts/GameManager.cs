@@ -15,8 +15,11 @@ public class GameManager : MonoBehaviour {
 	private List<EnemyType> enemyTypes = new List<EnemyType>();
 	private int enemyIndex = 0;
 
-	public float playerHealth = 10f;
-	public float enemyHealth = 10f;
+	public float playerHealth = 30f;
+	public float enemyHealth = 30f;
+
+	public BoxerState playerState;
+	public BoxerState enemyState;
 
 	private static GameManager gameManager;
 	public static GameManager Instance {
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void Damage(Boxers boxer, BoxerState boxerState) {
-		if (EnemyHash != Animator.StringToHash ("Base Layer.BlockBool")) {
+		if (AllowDamage(boxer)) {
 			if (boxerState.ToString ().ToUpper().Contains ("JAB")) {
 				if (boxer == Boxers.PLAYER)
 					playerHealth -= 1;
@@ -94,9 +97,9 @@ public class GameManager : MonoBehaviour {
 			if (boxerState.ToString().ToUpper().Contains("UPPERCUT")) {
 				animatorHolder.SetBool("DamageUppercut", true);
 			} else {
-				if (boxerState == BoxerState.LEFT_JAB || boxerState == BoxerState.LEFT_HOOK) {
+				if (boxerState == BoxerState.LEFT_JAB_ATTACK || boxerState == BoxerState.LEFT_HOOK_ATTACK) {
 					animatorHolder.SetBool("DamageRight", true);
-				} else if (boxerState == BoxerState.RIGHT_JAB || boxerState == BoxerState.RIGHT_HOOK)
+				} else if (boxerState == BoxerState.RIGHT_JAB_ATTACK || boxerState == BoxerState.RIGHT_HOOK_ATTACK)
 					animatorHolder.SetBool("DamageLeft", true);
 			}
 			CheckAnimation(animatorHolder);
@@ -136,5 +139,44 @@ public class GameManager : MonoBehaviour {
 			anim.SetBool("DamageLeft", false);
 			anim.SetBool("KnockoutBool", false);
 		}
+	}
+
+	private bool AllowDamage(Boxers boxer) {
+		if (boxer == Boxers.PLAYER) {
+			if (enemyState.ToString().ToUpper().Contains("ATTACK")) {
+				if (playerState == BoxerState.IDLE)
+					return true;
+				if (playerState == BoxerState.BLOCK)
+					return false;
+				if (enemyState.ToString().ToUpper().Contains("LEFT")) {
+					if (playerState == BoxerState.LEFT_DODGE)
+						return false;
+				}
+				if (enemyState.ToString().ToUpper().Contains("RIGHT")) {
+					if (playerState == BoxerState.RIGHT_DODGE)
+						return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			if (playerState.ToString().ToUpper().Contains("ATTACK")) {
+				if (enemyState == BoxerState.IDLE)
+					return true;
+				if (enemyState == BoxerState.BLOCK) 
+					return false;
+				if (playerState.ToString().ToUpper().Contains("LEFT")) {
+					if (enemyState == BoxerState.LEFT_DODGE)
+						return false;
+				}
+				if (playerState.ToString().ToUpper().Contains("RIGHT")) {
+					if (enemyState == BoxerState.RIGHT_DODGE)
+						return false;
+				}
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 }

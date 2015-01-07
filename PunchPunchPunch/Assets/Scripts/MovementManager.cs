@@ -30,26 +30,27 @@ public class MovementManager : MonoBehaviour {
 	}
 
 	private void AnimateMove(BoxerState boxerState) {
+		GameManager.Instance.enemyState = boxerState;
 		switch (boxerState) {
 		case BoxerState.IDLE:
 			anim.SetBool("IdleBool", true);
 			break;
-		case BoxerState.LEFT_JAB:
+		case BoxerState.LEFT_JAB_ATTACK:
 			anim.SetBool("LeftJabBool", true);
 			break;
-		case BoxerState.LEFT_HOOK:
+		case BoxerState.LEFT_HOOK_ATTACK:
 			anim.SetBool("LeftHookBool", true);
 			break;
-		case BoxerState.LEFT_UPPERCUT:
+		case BoxerState.LEFT_UPPERCUT_ATTACK:
 			anim.SetBool("LeftUppercutBool", true);
 			break;
-		case BoxerState.RIGHT_JAB:
+		case BoxerState.RIGHT_JAB_ATTACK:
 			anim.SetBool("RightJabBool", true);
 			break;
-		case BoxerState.RIGHT_HOOK:
+		case BoxerState.RIGHT_HOOK_ATTACK:
 			anim.SetBool("RightHookBool", true);
 			break;
-		case BoxerState.RIGHT_UPPERCUT:
+		case BoxerState.RIGHT_UPPERCUT_ATTACK:
 			anim.SetBool("RightUppercutBool", true);
 			break;
 		case BoxerState.BLOCK:
@@ -83,6 +84,7 @@ public class MovementManager : MonoBehaviour {
 		anim.SetBool("BlockBool", false);
 		anim.SetBool("DodgeLeftBool", false);
 		anim.SetBool("DodgeRightBool", false);
+		GameManager.Instance.enemyState = BoxerState.IDLE;
 	}
 
 }
