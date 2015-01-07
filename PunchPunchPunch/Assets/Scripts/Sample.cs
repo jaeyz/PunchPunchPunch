@@ -11,9 +11,11 @@ public class Sample : MonoBehaviour {
 		if (Input.GetKeyUp(KeyCode.Q)) {
 			anim.SetBool("IdleBool", false);
 			anim.SetBool("LeftJabBool", true);
+			GameManager.Instance.DamageOpponent(BoxerState.LEFT_JAB);
 		} else if (Input.GetKeyUp(KeyCode.A)) {
 			anim.SetBool("IdleBool", false);
 			anim.SetBool("LeftHookBool", true);
+			GameManager.Instance.DamageOpponent(BoxerState.LEFT_HOOK);
 		} else if (Input.GetKeyUp(KeyCode.Z)) {
 			anim.SetBool("IdleBool", false);
 			anim.SetBool("LeftUppercutBool", true);

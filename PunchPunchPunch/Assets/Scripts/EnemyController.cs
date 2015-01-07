@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnemyController : MonoBehaviour {
-	
+
 	private int minTimeRange = 3; // ATTACK DECISION MAKING.
 	private int maxTimeRange = 5; // 
 
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
 		counter += Time.deltaTime;
 		if (counter > GetRandomValue()) {
-			Debug.LogError(GetRandomValue());
+			MovementManager.Instance.PerformRandomMove();
 			counter = 0;
 		}
 	}
@@ -37,6 +37,11 @@ public class EnemyController : MonoBehaviour {
 			maxTimeRange = LevelManager.Instance.GetMinMaxValues(enemyType)[1];
 		}
 		return Random.Range(minTimeRange, maxTimeRange);
+	}
+
+	public float Counter {
+		get { return counter; }
+		set { counter = value; }
 	}
 
 }
