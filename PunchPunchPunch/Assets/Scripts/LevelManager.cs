@@ -3,9 +3,9 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
-	private int[] easyTimer = new int[] { 5, 8 };
-	private int[] normalTimer = new int[] { 5, 6};
-	private int[] hardTimer = new int[] { 3, 5};
+	private int[] easyTimer = new int[] { 2, 4 };
+	private int[] normalTimer = new int[] { 2, 3};
+	private int[] hardTimer = new int[] { 1, 4};
 	private int[] extremeTimer = new int[] { 1, 3};
 
 	private static LevelManager levelManager;

@@ -25,8 +25,13 @@ public class MovementManager : MonoBehaviour {
 	}
 
 	public void PerformRandomMove() {
-		int randomIndex = UnityEngine.Random.Range (0, boxerStates.Count - 1);
-		AnimateMove (boxerStates [randomIndex]);
+		if (UnityEngine.Random.value > 0.5f) {
+			int randomIndex = UnityEngine.Random.Range (1, 9);
+			AnimateMove (boxerStates [randomIndex]);
+		} else {
+			int randomIndex = UnityEngine.Random.Range (0, boxerStates.Count - 1);
+			AnimateMove (boxerStates [randomIndex]);
+		}
 	}
 
 	private void AnimateMove(BoxerState boxerState) {
