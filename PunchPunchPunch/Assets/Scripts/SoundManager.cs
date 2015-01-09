@@ -27,6 +27,10 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
+	void Awake() {
+		DontDestroyOnLoad (this);
+	}
+
 	public void PlaySound(Sounds s) {
 		switch (s) {
 		case Sounds.PUNCH:

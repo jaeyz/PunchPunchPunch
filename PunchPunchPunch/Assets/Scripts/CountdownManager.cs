@@ -46,7 +46,6 @@ public class CountdownManager : MonoBehaviour {
 						}
 					}
 				} else if (isEnemy) {
-					Debug.LogError(tapCount);
 					if (Random.value >= randomValue)
 						tapCount++;
 					if (!getUp) {
