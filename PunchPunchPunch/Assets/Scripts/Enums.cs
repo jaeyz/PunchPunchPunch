@@ -34,5 +34,7 @@ public enum Sounds {
 	BLOCK,
 	DODGE,
 	BELL,
-	COUNTDOWN
+	COUNTDOWN,
+	MAIN_CLIP,
+	SUB_MENU_CLIP
 }

@@ -18,6 +18,12 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField]
 	private AudioClip countdownClip;
 
+	[SerializeField]
+	private AudioClip mainClip;
+
+	[SerializeField]
+	private AudioClip subMenuClip;
+
 	private static SoundManager soundManager;
 	public static SoundManager Instance {
 		get {
@@ -31,7 +37,7 @@ public class SoundManager : MonoBehaviour {
 		DontDestroyOnLoad (this);
 	}
 
-	public void PlaySound(Sounds s) {
+	public void PlaySound(Sounds s, bool loop = false) {
 		switch (s) {
 		case Sounds.PUNCH:
 			audio.clip = punchClip;
@@ -48,7 +54,14 @@ public class SoundManager : MonoBehaviour {
 		case Sounds.COUNTDOWN:
 			audio.clip = countdownClip;
 			break;
+		case Sounds.MAIN_CLIP:
+			audio.clip = mainClip;
+			break;
+		case Sounds.SUB_MENU_CLIP:
+			audio.clip = subMenuClip;
+			break;
 		}
+		audio.loop = loop;
 		audio.Play ();
 	}
 
