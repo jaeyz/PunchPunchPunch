@@ -15,7 +15,9 @@ public class CPButton : MonoBehaviour {
 	}
 
 	void OnClick() {
-		if (onClick != null)
+		if (onClick != null) {
 			onClick ();
+			SoundManager.Instance.PlayOnce(Sounds.CLICK);
+		}
 	}
 }

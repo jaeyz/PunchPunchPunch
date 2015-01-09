@@ -38,6 +38,15 @@ public class CountdownManager : MonoBehaviour {
 				tapLimit = playerTimer;
 			if (timer < TIME_LIMIT) {
 				if (!isEnemy) {
+#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+					if (Input.GetMouseButtonUp(0)) {
+						tapCount ++;
+						if (!getUp) {
+							getUp = true;
+							GameManager.Instance.Getup(isEnemy);
+						}
+					}
+#else
 					if (Input.GetKeyUp (KeyCode.G)) {
 						tapCount ++;
 						if (!getUp) {
@@ -45,6 +54,7 @@ public class CountdownManager : MonoBehaviour {
 							GameManager.Instance.Getup(isEnemy);
 						}
 					}
+#endif
 				} else if (isEnemy) {
 					if (Random.value >= randomValue)
 						tapCount++;
@@ -61,8 +71,7 @@ public class CountdownManager : MonoBehaviour {
 					GameManager.Instance.Rebox(isEnemy);
 				}
 			} else {
-				if (getUp) 
-					GameManager.Instance.GameOver(isEnemy);
+				GameManager.Instance.GameOver(isEnemy);
 			}
 		}
 	}

@@ -36,5 +36,8 @@ public enum Sounds {
 	BELL,
 	COUNTDOWN,
 	MAIN_CLIP,
-	SUB_MENU_CLIP
+	SUB_MENU_CLIP,
+	CLICK,
+	GROUND,
+	IN_GAME
 }
