@@ -209,6 +209,7 @@ public class GameManager : MonoBehaviour {
 			player.SetBool("GetupBoolOk", true);
 			playerHealth = secondLifeValue;
 		}
+		CountdownManager.Instance.UpdateTimer(isEnemy);
 		Reset (isEnemy);
 	}
 
@@ -229,7 +230,6 @@ public class GameManager : MonoBehaviour {
 			player.SetBool("KnockoutBool", false);
 			player.SetBool("GetUpBool", false);
 		}
-		hasKO = false;
 		EnemyController.Instance.isDead = false;
 		StartCoroutine (RemoveGtup (isEnemy));
 	}
@@ -249,5 +249,7 @@ public class GameManager : MonoBehaviour {
 		} else {
 			player.SetBool("GetupBoolOk", false);
 		}
+		yield return new WaitForSeconds (0.90f);
+		hasKO = false;
 	}
 }
