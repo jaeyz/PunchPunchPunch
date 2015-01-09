@@ -24,6 +24,15 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField]
 	private AudioClip subMenuClip;
 
+	[SerializeField]
+	private AudioClip clickClip;
+
+	[SerializeField]
+	private AudioClip fallGroundCollisionClip;
+
+	[SerializeField]
+	private AudioClip inGameClip;
+
 	private static SoundManager soundManager;
 	public static SoundManager Instance {
 		get {
@@ -60,6 +69,9 @@ public class SoundManager : MonoBehaviour {
 		case Sounds.SUB_MENU_CLIP:
 			audio.clip = subMenuClip;
 			break;
+		case Sounds.IN_GAME:
+			audio.clip = inGameClip;
+			break;
 		}
 		audio.loop = loop;
 		audio.Play ();
@@ -82,11 +94,21 @@ public class SoundManager : MonoBehaviour {
 		case Sounds.COUNTDOWN:
 			audio.PlayOneShot(countdownClip);
 			break;
+		case Sounds.CLICK:
+			audio.PlayOneShot(clickClip);
+			break;
+		case Sounds.GROUND:
+			audio.PlayOneShot(fallGroundCollisionClip);
+			break;
 		}
 	}
 
 	public void StopSound() {
 		if (audio.isPlaying)
 			audio.Stop();
+	}
+
+	public void SetVolume(float t) {
+		audio.volume = t;
 	}
 }

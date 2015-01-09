@@ -24,6 +24,10 @@ public class ScreenSizeSupport : MonoBehaviour {
 			return screenSizeSupport;
 		}
 	}
+
+	void Awake() {
+		DontDestroyOnLoad (this);
+	}
 	
 	void Start() {
 		Screen.orientation = ScreenOrientation.LandscapeRight;

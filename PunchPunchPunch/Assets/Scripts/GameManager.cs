@@ -6,11 +6,10 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-	[SerializeField]
-	private Animator player;
+	private const float HEALTH_DEFAULT_VALUE = 30;
 
-	[SerializeField]
-	private Animator enemy;
+	public Animator player;
+	public Animator enemy;
 	
 	private List<EnemyType> enemyTypes = new List<EnemyType>();
 	private int enemyIndex = 0;
@@ -23,7 +22,8 @@ public class GameManager : MonoBehaviour {
 
 	public bool hasKO = false;
 
-	private int secondLifeValue = 10;
+	private float playerHealthMultiplier = 0.3f;
+	private float enemyHealthMultiplier = 0.3f;
 
 	private static GameManager gameManager;
 	public static GameManager Instance {
@@ -96,17 +96,18 @@ public class GameManager : MonoBehaviour {
 		SoundManager.Instance.PlayOnce (Sounds.PUNCH);
 
 		if (enemyHealth <= 0 || playerHealth <= 0) {
-			animatorHolder.SetBool ("KnockoutBool", true);
-			if (boxer == Boxers.ENEMY) {
+			if (enemyHealth <= 0) {
+				enemy.SetBool("KnockoutBool", true);
 				EnemyController.Instance.isDead = true;
 				CountdownManager.Instance.isEnemy = true;
-			} else {
+			} else if (playerHealth <= 0) {
+				player.SetBool("KnockoutBool", true);
 				CountdownManager.Instance.isEnemy = false;
 			}
 			hasKO = true;
 			StartCountdown();
 		} else {
-			EnemyController.Instance.Counter -= 2f;
+			//EnemyController.Instance.Counter -= 2f;
 			if (boxerState.ToString().ToUpper().Contains("UPPERCUT")) {
 				animatorHolder.SetBool("DamageUppercut", true);
 			} else {
@@ -204,10 +205,14 @@ public class GameManager : MonoBehaviour {
 	public void Rebox(bool isEnemy) {
 		if (isEnemy) {
 			enemy.SetBool("GetupBoolOk", true);
-			enemyHealth = secondLifeValue;
+			enemyHealthMultiplier += 0.2f;
+			float lifeValue = HEALTH_DEFAULT_VALUE * enemyHealthMultiplier;
+			enemyHealth = lifeValue;
 		} else {
 			player.SetBool("GetupBoolOk", true);
-			playerHealth = secondLifeValue;
+			playerHealthMultiplier += 0.2f;
+			float lifeValue = HEALTH_DEFAULT_VALUE * playerHealthMultiplier;
+			playerHealth = lifeValue;
 		}
 		CountdownManager.Instance.UpdateTimer(isEnemy);
 		Reset (isEnemy);
@@ -219,6 +224,7 @@ public class GameManager : MonoBehaviour {
 		} else {
 			player.SetBool("DeadBool", true);
 		}
+		StartCoroutine (ShowMenu ());
 	}
 
 	private void Reset(bool isEnemy) {
@@ -251,5 +257,10 @@ public class GameManager : MonoBehaviour {
 		}
 		yield return new WaitForSeconds (0.90f);
 		hasKO = false;
+	}
+
+	private IEnumerator ShowMenu() {
+		yield return new WaitForSeconds (4f);
+		GameController.Instance.ShowBackMenu ();
 	}
 }

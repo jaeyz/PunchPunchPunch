@@ -1,28 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadingScreenController : MonoBehaviour {
+public class SettingsController : MonoBehaviour {
 
 	[SerializeField]
 	private Transform panel;
 
 	[SerializeField]
-	private CPButton button;
+	private CPButton backButton;
 
-	// Use this for initialization
 	void Start () {
 		ScreenSizeSupport.Instance.root = GetComponent<UIRoot> ();
 		panel.localScale = ScreenSizeSupport.Instance.GetPrefabScale ();
-		SoundManager.Instance.SetVolume (0.3f);
-		SoundManager.Instance.PlaySound (Sounds.MAIN_CLIP, true);
-		button.AddListeners (OnStartClick);
-	}
-	
-	void OnDestroy() {
-		button.RemoveListeners (OnStartClick);
+		AddListeners ();
 	}
 
-	void OnStartClick() {
+	void OnDestroy() {
+		RemoveListener ();
+	}
+
+	void AddListeners() {
+		backButton.AddListeners (OnBack);
+	}
+
+	void RemoveListener() {
+		backButton.RemoveListeners (OnBack);
+	}
+
+	void OnBack() {
 		Application.LoadLevel("MainMenu");
 	}
 }

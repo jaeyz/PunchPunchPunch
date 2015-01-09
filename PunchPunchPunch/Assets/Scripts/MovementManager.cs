@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 public class MovementManager : MonoBehaviour {
 
-	[SerializeField]
-	private Animator anim;
+	public Animator anim;
 
 	private List<BoxerState> boxerStates = new List<BoxerState>();
 

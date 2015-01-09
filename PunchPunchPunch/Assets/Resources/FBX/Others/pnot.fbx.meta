@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 36f6de8a369f0c140960d2dedf8df785
+guid: a6e84a0414e94ca48bf00716f99cac82
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -34,6 +34,8 @@ ModelImporter:
     100056: pasted__polySurface26
     100058: //RootNode
     100060: polySurface22
+    100062: polySurface30
+    100064: polySurface31
     400000: joint1
     400002: joint10
     400004: joint11
@@ -65,11 +67,15 @@ ModelImporter:
     400056: pasted__polySurface26
     400058: //RootNode
     400060: polySurface22
-    4300000: polySurface22
+    400062: polySurface30
+    400064: polySurface31
+    4300000: polySurface30
     4300002: pasted__polySurface26
+    4300004: polySurface31
     9500000: //RootNode
     13700000: pasted__polySurface26
-    13700002: polySurface22
+    13700002: polySurface30
+    13700004: polySurface31
   materials:
     importMaterials: 1
     materialName: 0
