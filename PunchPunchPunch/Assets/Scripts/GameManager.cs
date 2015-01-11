@@ -355,6 +355,11 @@ public class GameManager : MonoBehaviour {
 		int ranVal = UnityEngine.Random.Range (0, GameController.Instance.RightEffects.Count - 1);
 		GameObject go = GameController.Instance.RightEffects [ranVal];
 		go.SetActive (true);
+		if (ranVal == 0) {
+			go.transform.localScale = new Vector3(600, 430, 1);
+		} else {
+			go.transform.localScale = new Vector3(300, 300, 1);
+		}
 		iTween.ScaleFrom (go, Vector3.zero, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		go.SetActive (false);
@@ -364,6 +369,11 @@ public class GameManager : MonoBehaviour {
 		int ranVal = UnityEngine.Random.Range (0, GameController.Instance.LeftEffects.Count - 1);
 		GameObject go = GameController.Instance.LeftEffects [ranVal];
 		go.SetActive (true);
+		if (ranVal == 0) {
+			go.transform.localScale = new Vector3(300, 300, 1);
+		} else {
+			go.transform.localScale = new Vector3(600, 430, 1);
+		}
 		iTween.ScaleFrom (go, Vector3.zero, 0.5f);
 		yield return new WaitForSeconds(0.5f);
 		go.SetActive (false);
