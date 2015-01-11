@@ -284,18 +284,13 @@ public class GameManager : MonoBehaviour {
 		GameController.Instance.enemyHealthSlider.sliderValue = enemyHealth / enemyHealthHolder;
 	}
 
-	void Update() {
-		if (Input.GetKeyUp(KeyCode.O))
-			StartCoroutine(ShowKO());
-	}
-
 	private IEnumerator ShowKO() {
 		yield return new WaitForSeconds (2f);
 		koGameObject.SetActive (true);
 		iTween.ScaleTo (koGameObject, new Vector3(689f, 331f, 1), 1f);
 		SoundManager.Instance.PlayOnce (Sounds.BELL);
 		yield return new WaitForSeconds (3f);
-		koGameObject.transform.localScale = Vector3.one;
+		koGameObject.transform.localScale = Vector3.zero;
 		koGameObject.SetActive (false);
 		StartCountdown();
 	}
@@ -309,7 +304,7 @@ public class GameManager : MonoBehaviour {
 		SoundManager.Instance.PlayOnce (Sounds.BELL);
 		yield return new WaitForSeconds(1f);
 		SoundManager.Instance.PlayOnce (Sounds.BELL);
-		itsOverGameObject.transform.localScale = Vector3.one;
+		itsOverGameObject.transform.localScale = Vector3.zero;
 		itsOverGameObject.SetActive (false);
 		yield return StartCoroutine (ShowWinner (isEnemy));
 	}
@@ -323,7 +318,7 @@ public class GameManager : MonoBehaviour {
 		goHolder.SetActive(true);
 		iTween.ScaleTo (goHolder, new Vector3(1000f, 282f, 1), 1f);
 		yield return new WaitForSeconds (2f);
-		goHolder.transform.localScale = Vector3.one;
+		goHolder.transform.localScale = Vector3.zero;
 		goHolder.SetActive (false);
 		GameController.Instance.OnBack ();
 	}

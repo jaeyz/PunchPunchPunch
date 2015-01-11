@@ -71,6 +71,7 @@ public class CountdownManager : MonoBehaviour {
 					GameManager.Instance.Rebox(isEnemy);
 				}
 			} else {
+				StopCountdown();
 				GameManager.Instance.GameOver(isEnemy);
 			}
 		}

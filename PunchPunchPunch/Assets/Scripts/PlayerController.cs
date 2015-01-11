@@ -42,14 +42,22 @@ public class PlayerController : MonoBehaviour {
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_JAB_ATTACK);
 					StartCoroutine(WaitToReset());
 				}
-			} else if (IsLeftSwipeLeft()) {
+			} else if (IsLeftSwipeRight()) {
 				if (canAttack) {
 					canAttack = false;
 					anim.SetBool("IdleBool", false);
 					anim.SetBool("LeftHookBool", true);
 					GameManager.Instance.playerState = BoxerState.LEFT_HOOK_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_HOOK_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.2f));
+				}
+			} else if (IsLeftSwipeLeft()) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("DodgeLeftBool", true);
+					GameManager.Instance.playerState = BoxerState.LEFT_DODGE;
+					StartCoroutine(WaitToReset(true));
 				}
 			} else if (IsSwipeLeftUp()) {
 				if (canAttack) {
@@ -58,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("LeftUppercutBool", true);
 					GameManager.Instance.playerState = BoxerState.LEFT_UPPERCUT_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_UPPERCUT_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.5f));
 				}
 			} 	else if (IsRightSwipeDown()) {
 				if (canAttack) {
@@ -69,14 +77,22 @@ public class PlayerController : MonoBehaviour {
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_JAB_ATTACK);
 					StartCoroutine(WaitToReset());
 				}
-			} else if (IsRightSwipe()) {
+			} else if (IsRightSwipeLeft()) {
 				if (canAttack) {
 					canAttack = false;
 					anim.SetBool("IdleBool", false);
 					anim.SetBool("RightHookBool", true);
 					GameManager.Instance.playerState = BoxerState.RIGHT_HOOK_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_HOOK_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.2f));
+				}
+			} else if (IsRightSwipe()) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("DodgeRightBool", true);
+					GameManager.Instance.playerState = BoxerState.RIGHT_DODGE;
+					StartCoroutine(WaitToReset(true));
 				}
 			} else if (IsRightSwipeUp()) {
 				if (canAttack) {
@@ -85,10 +101,19 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("RightUppercutBool", true);
 					GameManager.Instance.playerState = BoxerState.RIGHT_UPPERCUT_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_UPPERCUT_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.5f));
+				}
+			} else if (IsBlock()) {
+				if (canAttack) {
+					canAttack = false;
+					anim.SetBool("IdleBool", false);
+					anim.SetBool("BlockBool", true);
+					GameManager.Instance.playerState = BoxerState.BLOCK;
+					StartCoroutine(WaitToReset(true, 1.5f));
 				}
 			}
 #else
+		
 			if (Input.GetKeyUp(KeyCode.Q)) {
 				if (canAttack) {
 					canAttack = false;
@@ -105,7 +130,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("LeftHookBool", true);
 					GameManager.Instance.playerState = BoxerState.LEFT_HOOK_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_HOOK_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.5f));
 				}
 			} else if (Input.GetKeyUp(KeyCode.Z)) {
 				if (canAttack) {
@@ -114,7 +139,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("LeftUppercutBool", true);
 					GameManager.Instance.playerState = BoxerState.LEFT_UPPERCUT_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.LEFT_UPPERCUT_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 2f));
 				}
 			} else if (Input.GetKeyUp(KeyCode.X)) {
 				if (canAttack) {
@@ -123,7 +148,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("RightUppercutBool", true);
 					GameManager.Instance.playerState = BoxerState.RIGHT_UPPERCUT_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_UPPERCUT_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 2f));
 				}
 			} else if (Input.GetKeyUp(KeyCode.S)) {
 				if (canAttack) {
@@ -132,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 					anim.SetBool("RightHookBool", true);
 					GameManager.Instance.playerState = BoxerState.RIGHT_HOOK_ATTACK;
 					GameManager.Instance.Damage(Boxers.ENEMY, BoxerState.RIGHT_HOOK_ATTACK);
-					StartCoroutine(WaitToReset());
+					StartCoroutine(WaitToReset(false, 1.5f));
 				}
 			} else if (Input.GetKeyUp(KeyCode.W)) {
 				if (canAttack) {
@@ -164,6 +189,8 @@ public class PlayerController : MonoBehaviour {
 		anim.SetBool("LeftHookBool", false);
 		anim.SetBool("LeftJabBool", false);
 		anim.SetBool ("BlockBool", false);
+		anim.SetBool ("DodgeLeftBool", false);
+		anim.SetBool ("DodgeRightBool", false);
 		GameManager.Instance.playerState = BoxerState.IDLE;
 	}
 
@@ -172,8 +199,8 @@ public class PlayerController : MonoBehaviour {
 		return stateInfo.nameHash == Animator.StringToHash("Base Layer.IdleState");
 	}
 
-	private IEnumerator WaitToReset(bool reset = false) {
-		yield return new WaitForSeconds(1f);
+	private IEnumerator WaitToReset(bool reset = false, float w = 1f) {
+		yield return new WaitForSeconds(w);
 		canAttack = true;
 		if (reset)
 			Reset ();
@@ -195,6 +222,36 @@ public class PlayerController : MonoBehaviour {
 					float y = lastPosition.y - initialPosition.y;
 					if (x <= LEFT_THRESHOLD && y < UP_THRESHOLD) {
 						Debug.LogError("Left Swipe");
+						return true;
+					}
+					break;
+				case TouchPhase.Canceled:
+					touched = false;
+					initialPosition = Vector2.zero;
+					lastPosition = Vector2.zero;
+					break;
+				}
+			}
+		}
+		return false;
+	}
+
+	private bool IsLeftSwipeRight() {
+		if (Input.touchCount == 1) {
+			Touch touch = Input.touches[0];
+			if (touch.position.x < Screen.width / 2f) {
+				switch (touch.phase) {
+				case TouchPhase.Began:
+					initialPosition = touch.position;
+					touched = true;
+					break;
+				case TouchPhase.Ended:
+					touched = false;
+					lastPosition = touch.position;
+					float x = lastPosition.x - initialPosition.x;
+					float y = lastPosition.y - initialPosition.y;
+					if (x >= RIGHT_THRESHOLD && y < UP_THRESHOLD) {
+						Debug.LogError("Left Swipe Right");
 						return true;
 					}
 					break;
@@ -317,6 +374,36 @@ public class PlayerController : MonoBehaviour {
 		return false;
 	}
 
+	private bool IsRightSwipeLeft() {
+		if (Input.touchCount == 1) {
+			Touch touch = Input.touches[0];
+			if (touch.position.x > Screen.width / 2f) {
+				switch (touch.phase) {
+				case TouchPhase.Began:
+					initialPosition = touch.position;
+					touched = true;
+					break;
+				case TouchPhase.Ended:
+					touched = false;
+					lastPosition = touch.position;
+					float x = lastPosition.x - initialPosition.x;
+					float y = lastPosition.y - initialPosition.y;
+					if (x <= LEFT_THRESHOLD && y < UP_THRESHOLD) {
+						Debug.LogError("Right Swipe Left");
+						return true;
+					}
+					break;
+				case TouchPhase.Canceled:
+					touched = false;
+					initialPosition = Vector2.zero;
+					lastPosition = Vector2.zero;
+					break;
+				}
+			}
+		}
+		return false;
+	}
+
 	private bool IsRightSwipeUp() {
 		if (Input.touchCount == 1) {
 			Touch touch = Input.touches[0];
@@ -373,6 +460,17 @@ public class PlayerController : MonoBehaviour {
 					break;
 				}
 			}
+		}
+		return false;
+	}
+
+	private bool IsBlock() {
+		if (Input.touchCount == 2) {
+			Touch touch = Input.touches[0];
+			Touch touch2 = Input.touches[1];
+			if ((touch.position.x < Screen.width / 2 && touch2.position.x > Screen.width / 2) ||
+			   (touch.position.x > Screen.width / 2 && touch2.position.x < Screen.width / 2))
+				return true;
 		}
 		return false;
 	}
