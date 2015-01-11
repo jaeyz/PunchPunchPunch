@@ -50,15 +50,29 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		enemyTypes = Enum.GetValues(typeof(EnemyType)).OfType<EnemyType>().ToList();
+		SetLevel ();
 		playerHealthHolder = playerHealth;
 		enemyHealthHolder = enemyHealth;
 		UpdateHealth ();
 	}
 
-	public void NextLevel() {
-		if ((enemyIndex + 1) < enemyTypes.Count)
-			enemyIndex++;
-		EnemyController.Instance.UpdateEnemyType(enemyTypes[enemyIndex]);
+	void SetLevel() {
+		EnemyType eType = EnemyType.EASY;
+		switch (PlayerPrefs.GetString("Settings")) {
+		case "Easy":
+			eType = EnemyType.EASY;
+			break;
+		case "Medium":
+			eType = EnemyType.NORMAL;
+			break;
+		case "Hard":
+			eType = EnemyType.HARD;
+			break;
+		case "Extreme":
+			eType = EnemyType.EXTREME;
+			break;
+		}
+		EnemyController.Instance.UpdateEnemyType(eType);
 	}
 
 	public EnemyType CurrentEnemyType {

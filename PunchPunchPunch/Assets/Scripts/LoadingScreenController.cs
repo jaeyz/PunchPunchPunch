@@ -19,6 +19,10 @@ public class LoadingScreenController : MonoBehaviour {
 		SoundManager.Instance.PlaySound (Sounds.MAIN_CLIP, true);
 		button.AddListeners (OnStartClick);
 		iTween.FadeFrom (tapToStart, iTween.Hash("alpha", 0, "time", 1f, "looptype", iTween.LoopType.loop));
+		if (!PlayerPrefs.HasKey("Settings")) {
+			PlayerPrefs.SetString("Settings", "Easy");
+			PlayerPrefs.Save();
+		}
 	}
 	
 	void OnDestroy() {
