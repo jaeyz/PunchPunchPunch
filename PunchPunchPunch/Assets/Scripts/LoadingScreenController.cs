@@ -13,7 +13,6 @@ public class LoadingScreenController : MonoBehaviour {
 	void Start () {
 		ScreenSizeSupport.Instance.root = GetComponent<UIRoot> ();
 		panel.localScale = ScreenSizeSupport.Instance.GetPrefabScale ();
-		SoundManager.Instance.SetVolume (0.3f);
 		SoundManager.Instance.PlaySound (Sounds.MAIN_CLIP, true);
 		button.AddListeners (OnStartClick);
 	}

@@ -4,6 +4,9 @@ using System.Collections;
 public class SoundManager : MonoBehaviour {
 
 	[SerializeField]
+	private AudioSource soundPlayer;
+
+	[SerializeField]
 	private AudioClip punchClip;
 
 	[SerializeField]
@@ -80,25 +83,25 @@ public class SoundManager : MonoBehaviour {
 	public void PlayOnce(Sounds s) {
 		switch (s) {
 		case Sounds.PUNCH:
-			audio.PlayOneShot(punchClip);
+			soundPlayer.PlayOneShot(punchClip);
 			break;
 		case Sounds.BLOCK:
 			//audio.PlayOneShot(punchClip);
 			break;
 		case Sounds.DODGE:
-			audio.PlayOneShot(missClip);
+			soundPlayer.PlayOneShot(missClip);
 			break;
 		case Sounds.BELL:
-			audio.PlayOneShot(bellClip);
+			soundPlayer.PlayOneShot(bellClip);
 			break;
 		case Sounds.COUNTDOWN:
-			audio.PlayOneShot(countdownClip);
+			soundPlayer.PlayOneShot(countdownClip);
 			break;
 		case Sounds.CLICK:
-			audio.PlayOneShot(clickClip);
+			soundPlayer.PlayOneShot(clickClip);
 			break;
 		case Sounds.GROUND:
-			audio.PlayOneShot(fallGroundCollisionClip);
+			soundPlayer.PlayOneShot(fallGroundCollisionClip);
 			break;
 		}
 	}

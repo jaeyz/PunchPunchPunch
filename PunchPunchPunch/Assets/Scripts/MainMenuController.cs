@@ -38,7 +38,6 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	void OnClickPlay() {
-		SoundManager.Instance.SetVolume (1);
 		Application.LoadLevel("CharacterSelect");
 	}
 

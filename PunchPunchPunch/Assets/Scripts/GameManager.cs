@@ -8,6 +8,18 @@ public class GameManager : MonoBehaviour {
 
 	private const float HEALTH_DEFAULT_VALUE = 30;
 
+	[SerializeField]
+	private GameObject koGameObject;
+
+	[SerializeField]
+	private GameObject itsOverGameObject;
+
+	[SerializeField]
+	private GameObject youLoseGameObject;
+
+	[SerializeField]
+	private GameObject youWinGameObject;
+
 	public Animator player;
 	public Animator enemy;
 	
@@ -16,14 +28,16 @@ public class GameManager : MonoBehaviour {
 
 	public float playerHealth = 10f;
 	public float enemyHealth = 10f;
+	private float playerHealthHolder;
+	private float enemyHealthHolder;
 
 	public BoxerState playerState;
 	public BoxerState enemyState;
 
 	public bool hasKO = false;
 
-	private float playerHealthMultiplier = 0.3f;
-	private float enemyHealthMultiplier = 0.3f;
+	private float playerHealthMultiplier = 0.7f;
+	private float enemyHealthMultiplier = 0.7f;
 
 	private static GameManager gameManager;
 	public static GameManager Instance {
@@ -36,6 +50,9 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		enemyTypes = Enum.GetValues(typeof(EnemyType)).OfType<EnemyType>().ToList();
+		playerHealthHolder = playerHealth;
+		enemyHealthHolder = enemyHealth;
+		UpdateHealth ();
 	}
 
 	public void NextLevel() {
@@ -68,6 +85,7 @@ public class GameManager : MonoBehaviour {
 				else
 					enemyHealth -= 3;
 			}
+			UpdateHealth();
 			StartCoroutine(Delay(boxer, boxerState));
 		}
 		if (boxer == Boxers.ENEMY) 
@@ -105,7 +123,7 @@ public class GameManager : MonoBehaviour {
 				CountdownManager.Instance.isEnemy = false;
 			}
 			hasKO = true;
-			StartCountdown();
+			StartCoroutine(ShowKO());
 		} else {
 			//EnemyController.Instance.Counter -= 2f;
 			if (boxerState.ToString().ToUpper().Contains("UPPERCUT")) {
@@ -203,18 +221,20 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Rebox(bool isEnemy) {
+		SoundManager.Instance.PlaySound (Sounds.IN_GAME);
 		if (isEnemy) {
 			enemy.SetBool("GetupBoolOk", true);
-			enemyHealthMultiplier += 0.2f;
+			enemyHealthMultiplier -= 0.2f;
 			float lifeValue = HEALTH_DEFAULT_VALUE * enemyHealthMultiplier;
 			enemyHealth = lifeValue;
 		} else {
 			player.SetBool("GetupBoolOk", true);
-			playerHealthMultiplier += 0.2f;
+			playerHealthMultiplier -= 0.2f;
 			float lifeValue = HEALTH_DEFAULT_VALUE * playerHealthMultiplier;
 			playerHealth = lifeValue;
 		}
 		CountdownManager.Instance.UpdateTimer(isEnemy);
+		UpdateHealth ();
 		Reset (isEnemy);
 	}
 
@@ -224,7 +244,7 @@ public class GameManager : MonoBehaviour {
 		} else {
 			player.SetBool("DeadBool", true);
 		}
-		StartCoroutine (ShowMenu ());
+		StartCoroutine (ShowItsOver (!isEnemy));
 	}
 
 	private void Reset(bool isEnemy) {
@@ -259,8 +279,52 @@ public class GameManager : MonoBehaviour {
 		hasKO = false;
 	}
 
-	private IEnumerator ShowMenu() {
-		yield return new WaitForSeconds (4f);
-		GameController.Instance.ShowBackMenu ();
+	private void UpdateHealth() {
+		GameController.Instance.playerHealthSlider.sliderValue = playerHealth / playerHealthHolder;
+		GameController.Instance.enemyHealthSlider.sliderValue = enemyHealth / enemyHealthHolder;
+	}
+
+	void Update() {
+		if (Input.GetKeyUp(KeyCode.O))
+			StartCoroutine(ShowKO());
+	}
+
+	private IEnumerator ShowKO() {
+		yield return new WaitForSeconds (2f);
+		koGameObject.SetActive (true);
+		iTween.ScaleTo (koGameObject, new Vector3(689f, 331f, 1), 1f);
+		SoundManager.Instance.PlayOnce (Sounds.BELL);
+		yield return new WaitForSeconds (3f);
+		koGameObject.transform.localScale = Vector3.one;
+		koGameObject.SetActive (false);
+		StartCountdown();
+	}
+
+	private IEnumerator ShowItsOver(bool isEnemy) {
+		yield return new WaitForSeconds (3f);
+		itsOverGameObject.SetActive(true);
+		iTween.ScaleTo (itsOverGameObject, new Vector3(774f, 146f, 1), 1f);
+		SoundManager.Instance.PlayOnce (Sounds.BELL);
+		yield return new WaitForSeconds(1f);
+		SoundManager.Instance.PlayOnce (Sounds.BELL);
+		yield return new WaitForSeconds(1f);
+		SoundManager.Instance.PlayOnce (Sounds.BELL);
+		itsOverGameObject.transform.localScale = Vector3.one;
+		itsOverGameObject.SetActive (false);
+		yield return StartCoroutine (ShowWinner (isEnemy));
+	}
+
+	private IEnumerator ShowWinner(bool isEnemy) {
+		GameObject goHolder = null;
+		if (isEnemy) 
+			goHolder = youLoseGameObject;
+		else
+			goHolder = youWinGameObject;
+		goHolder.SetActive(true);
+		iTween.ScaleTo (goHolder, new Vector3(1000f, 282f, 1), 1f);
+		yield return new WaitForSeconds (2f);
+		goHolder.transform.localScale = Vector3.one;
+		goHolder.SetActive (false);
+		GameController.Instance.OnBack ();
 	}
 }

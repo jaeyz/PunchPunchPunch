@@ -86,9 +86,7 @@ public class CountdownManager : MonoBehaviour {
 	}
 
 	IEnumerator BeginSounds() {
-		yield return new WaitForSeconds (2f);
-		SoundManager.Instance.PlaySound (Sounds.BELL);
-		yield return new WaitForSeconds (1f);
+		yield return null;
 		beginCountdown = true;
 		SoundManager.Instance.PlaySound (Sounds.COUNTDOWN);
 	}

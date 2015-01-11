@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour {
 	[SerializeField]
 	private GameObject backMenu;
 
-	[SerializeField]
-	private CPButton backButton;
+	public UISlider playerHealthSlider;
+	public UISlider enemyHealthSlider;
 
 	private static GameController gameController;
 	public static GameController Instance {
@@ -33,22 +33,9 @@ public class GameController : MonoBehaviour {
 		panel.localScale = ScreenSizeSupport.Instance.GetPrefabScale ();
 		SoundManager.Instance.PlaySound (Sounds.IN_GAME, true);
 		ShowAvatars ();
-		AddListeners ();
 	}
 
-	void OnDestroy() {
-		RemoveListeners ();
-	}
-
-	void AddListeners() {
-		backButton.AddListeners (OnBack);
-	}
-
-	void RemoveListeners() {
-		backButton.RemoveListeners (OnBack);
-	}
-
-	void OnBack() {
+	public void OnBack() {
 		SoundManager.Instance.StopSound ();
 		Destroy (SoundManager.Instance.gameObject);
 		Destroy (ScreenSizeSupport.Instance.gameObject);
@@ -79,9 +66,4 @@ public class GameController : MonoBehaviour {
 			}
 		}
 	}
-
-	public void ShowBackMenu() {
-		backMenu.SetActive (true);
-	}
-
 }
