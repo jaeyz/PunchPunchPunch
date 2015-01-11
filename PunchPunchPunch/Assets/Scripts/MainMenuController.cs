@@ -7,6 +7,9 @@ public class MainMenuController : MonoBehaviour {
 	private Transform panel;
 
 	[SerializeField]
+	private GameObject glovesTransform;
+
+	[SerializeField]
 	private CPButton playButton;
 
 	[SerializeField]
@@ -16,6 +19,8 @@ public class MainMenuController : MonoBehaviour {
 		ScreenSizeSupport.Instance.root = GetComponent<UIRoot> ();
 		panel.localScale = ScreenSizeSupport.Instance.GetPrefabScale ();
 		AddListeners ();
+		iTween.MoveTo (glovesTransform, iTween.Hash("position", new Vector3 (482.56f, 60, 0), 
+		                                                "time", 1f, "islocal", true));
 	}
 
 	void OnDestroy() {
