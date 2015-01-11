@@ -14,6 +14,9 @@ public class LoadingScreenController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+		Application.targetFrameRate = 30;
+#endif
 		ScreenSizeSupport.Instance.root = GetComponent<UIRoot> ();
 		panel.localScale = ScreenSizeSupport.Instance.GetPrefabScale ();
 		SoundManager.Instance.PlaySound (Sounds.MAIN_CLIP, true);
