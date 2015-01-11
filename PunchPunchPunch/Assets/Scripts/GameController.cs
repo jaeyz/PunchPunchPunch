@@ -5,6 +5,12 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
 	[SerializeField]
+	private List<GameObject> rightEffects = new List<GameObject>();
+
+	[SerializeField]
+	private List<GameObject> leftEffects = new List<GameObject> ();
+
+	[SerializeField]
 	private Transform panel;
 
 	[SerializeField]
@@ -65,5 +71,13 @@ public class GameController : MonoBehaviour {
 				MovementManager.Instance.anim = go.GetComponent<Animator>();
 			}
 		}
+	}
+
+	public List<GameObject> RightEffects {
+		get { return rightEffects; }
+	}
+
+	public List<GameObject> LeftEffects {
+		get { return leftEffects; }
 	}
 }

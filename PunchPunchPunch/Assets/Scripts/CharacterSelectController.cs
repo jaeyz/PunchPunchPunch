@@ -11,6 +11,12 @@ public class CharacterSelectController : MonoBehaviour {
 	private List<GameObject> enemyAvatars = new List<GameObject>();
 
 	[SerializeField]
+	private List<GameObject> leftStats = new List<GameObject> ();
+
+	[SerializeField]
+	private List<GameObject> rightStats = new List<GameObject> ();
+
+	[SerializeField]
 	private Transform panel;
 	
 	[SerializeField]
@@ -70,11 +76,13 @@ public class CharacterSelectController : MonoBehaviour {
 	void ShowPlayerAvatars() {
 		ResetPlayer ();
 		playerAvatars [0].SetActive (true);
+		leftStats [0].SetActive (true);
 	}
 
 	void ShowEnemyAvatars() {
 		ResetEnemy ();
 		enemyAvatars [0].SetActive (true);
+		rightStats [0].SetActive (true);
 	}
 	
 	void OnPlayerLeftClick() {
@@ -84,6 +92,7 @@ public class CharacterSelectController : MonoBehaviour {
 		else
 			playerAvatarIndex --;
 		playerAvatars [playerAvatarIndex].SetActive (true);
+		leftStats [playerAvatarIndex].SetActive (true);
 	}
 
 	void OnPlayerRightClick() {
@@ -93,6 +102,7 @@ public class CharacterSelectController : MonoBehaviour {
 		else
 			playerAvatarIndex++;
 		playerAvatars [playerAvatarIndex].SetActive (true);
+		leftStats [playerAvatarIndex].SetActive (true);
 	}
 
 	void OnEnemyLeftClick() {
@@ -102,6 +112,7 @@ public class CharacterSelectController : MonoBehaviour {
 		else
 			enemyAvatarIndex --;
 		enemyAvatars [enemyAvatarIndex].SetActive (true);
+		rightStats [enemyAvatarIndex].SetActive (true);
 	}
 
 	void OnEnemyRightClick() {
@@ -111,15 +122,20 @@ public class CharacterSelectController : MonoBehaviour {
 		else
 			enemyAvatarIndex++;
 		enemyAvatars [enemyAvatarIndex].SetActive (true);
+		rightStats [enemyAvatarIndex].SetActive (true);
 	}
 
 	void ResetPlayer() {
 		foreach (GameObject go in playerAvatars)
 			go.SetActive(false);
+		foreach (GameObject go in leftStats)
+			go.SetActive(false);
 	}
 
 	void ResetEnemy() {
 		foreach (GameObject go in enemyAvatars)
+			go.SetActive(false);
+		foreach (GameObject go in rightStats)
 			go.SetActive(false);
 	}
 

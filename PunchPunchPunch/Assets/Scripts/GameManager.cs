@@ -125,6 +125,20 @@ public class GameManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(0.35f);
 
+		if (boxer == Boxers.PLAYER) {
+			if (boxerState.ToString().ToUpper().Contains("RIGHT")) {
+				StartCoroutine(AnimateLeftBoom());
+			} else if (boxerState.ToString().ToUpper().Contains("LEFT")) {
+				StartCoroutine(AnimateRightBoom());
+			}
+		} else if (boxer == Boxers.ENEMY) {
+			if (boxerState.ToString().ToUpper().Contains("RIGHT")) {
+				StartCoroutine(AnimateRightBoom());
+			} else if (boxerState.ToString().ToUpper().Contains("LEFT")) {
+				StartCoroutine(AnimateLeftBoom());
+			}
+		}
+
 		SoundManager.Instance.PlayOnce (Sounds.PUNCH);
 
 		if (enemyHealth <= 0 || playerHealth <= 0) {
@@ -335,5 +349,23 @@ public class GameManager : MonoBehaviour {
 		goHolder.transform.localScale = Vector3.zero;
 		goHolder.SetActive (false);
 		GameController.Instance.OnBack ();
+	}
+
+	private IEnumerator AnimateRightBoom() {
+		int ranVal = UnityEngine.Random.Range (0, GameController.Instance.RightEffects.Count - 1);
+		GameObject go = GameController.Instance.RightEffects [ranVal];
+		go.SetActive (true);
+		iTween.ScaleFrom (go, Vector3.zero, 0.5f);
+		yield return new WaitForSeconds(0.5f);
+		go.SetActive (false);
+	}
+
+	private IEnumerator AnimateLeftBoom() {
+		int ranVal = UnityEngine.Random.Range (0, GameController.Instance.LeftEffects.Count - 1);
+		GameObject go = GameController.Instance.LeftEffects [ranVal];
+		go.SetActive (true);
+		iTween.ScaleFrom (go, Vector3.zero, 0.5f);
+		yield return new WaitForSeconds(0.5f);
+		go.SetActive (false);
 	}
 }
